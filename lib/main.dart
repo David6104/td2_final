@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'UI/mytheme.dart';
-import 'UI/home.dart';
+import 'home.dart';
+import 'viewmodels/setting_view_model.dart';
 
 void main() {
-  runApp(MyTD2App());
+  runApp(const MyTD3());
 }
 
-class MyTD2App extends StatelessWidget {
+class MyTD3 extends StatelessWidget {
+  const MyTD3({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final theme = MyTheme.dark();
-    return MaterialApp(theme: theme, title: 'TD2', home: Home());
+    return ChangeNotifierProvider(
+      create: (_) => SettingViewModel(),
+      child: Consumer<SettingViewModel>(
+        builder: (context, notifier, child) {
+          return MaterialApp(
+            theme: notifier.isDark ? MyTheme.dark() : MyTheme.light(),
+            title: 'TD3',
+            home: Home(),
+          );
+        },
+      ),
+    );
   }
 }
